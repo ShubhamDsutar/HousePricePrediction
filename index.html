@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>House Price Prediction</title>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        window.onload = () => {
+            // Flask will pass `result`, if not empty stay on prediction page
+            const result = "{{ result|default('') }}";
+            if (result.trim() !== "") {
+                showPage('predict');
+            } else {
+                showPage('home');
+            }
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('predict')">Prediction</a>
+        <a onclick="showPage('about')">About Us</a>
+        <a onclick="showPage('contact')">Contact Us</a>
+    </nav>
+
+    <div id="home" class="container page">
+        <h2>Welcome to House Price Predictor</h2>
+        <p>Use this tool to estimate your house price based on area in square feet.</p>
+    </div>
+
+    <div id="predict" class="container page hidden">
+        <h2>Enter House Area (sq ft)</h2> 
+        <form action="/predict" method="post">
+            <input type="text" name="x" placeholder="e.g. 2000"><br><br>
+            <input type="submit" value="Predict Price">
+        </form> 
+        <h3 style="margin-top: 30px;">{{ result }}</h3>
+    </div>
+
+    <div id="about" class="container page hidden">
+        <h2>About Our Project</h2>
+        <p>This house price prediction app uses machine learning to estimate housing prices based on the area. It's simple, fast, and built with real-world data to assist users in making informed decisions.</p>
+    </div>
+
+    <div id="contact" class="container page hidden">
+        <h2>Contact Us</h2>
+        <p>We'd love to hear from you!</p>
+        <p>📧 Email: support@housepredictor.com <br>
+            📞 Phone: +91 98765 43210</p>
+    </div>
+</body>
+</html>
